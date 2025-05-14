@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1.0.0_3" author="vaisper">
+        <createTable tableName="announcement">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="announcement_id" type="uuid"
+                    remarks="Идентификатор объявления">
+                <constraints nullable="false"/>
+            </column>
+            <column name="situation_description" type="varchar"
+                    remarks="Описание ситуации">
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
