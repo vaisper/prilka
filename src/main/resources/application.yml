@@ -1,5 +1,44 @@
+server:
+  port: 8090 # Порт, на котором будет запущен сервер
+
 spring:
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml
     contexts: development
     default-schema: public
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/public # URL базы данных
+    username: sa # Имя пользователя базы данных
+    password: password # Пароль пользователя базы данных
+    driver-class-name: org.postgresql.Driver # Драйвер PostgreSQL
+
+
+
+  jpa:
+    show-sql: true # Вывод SQL-запросов в логи (для отладки)
+    hibernate:
+      ddl-auto: none # Отключение автоматической генерации схемы Hibernate
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect # Диалект Hibernate для PostgreSQL
+        type: TRACE
+
+  logging:
+    level:
+      liquibase: DEBUG # Подробные логи Liquibase
+      org.springframework: TRACE # Логи Spring Boot на уровне INFO
+
+      org:
+        hibernate:
+          orm:
+            jdbc:
+              bind: TRACE
+
+
+        springframework:
+          jdbc:
+            core:
+              JdbcTemplate: DEBUG
+              StatementCreatorUtils: TRACE

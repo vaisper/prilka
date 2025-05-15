@@ -5,6 +5,7 @@
                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="v1.0.0_3" author="vaisper">
+        <!-- Создание таблицы announcement -->
         <createTable tableName="announcement">
             <column name="id" type="bigserial">
                 <constraints primaryKey="true"/>
@@ -17,5 +18,33 @@
                     remarks="Описание ситуации">
             </column>
         </createTable>
+
+        <!-- Добавление расширения pg_trgm -->
+        <sql>CREATE EXTENSION IF NOT EXISTS pg_trgm;</sql>
+        <sql>SET pg_trgm.similarity_threshold = 0.08;</sql>
+
+        <!-- Создание GIN-индекса для триграммного поиска -->
+        <sql>
+            CREATE INDEX idx_announcement_situation_description_trgm
+            ON announcement USING gin (situation_description gin_trgm_ops);
+        </sql>
+    </changeSet>
+
+    <changeSet id="v1.0.0_4" author="vaisper">
+        <!-- Вставка тестовых данных в таблицу announcement -->
+        <insert tableName="announcement">
+            <column name="announcement_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="situation_description" value="Это тестовое объявление о поиске пропавшего кота."/>
+        </insert>
+
+        <insert tableName="announcement">
+            <column name="announcement_id" value="550e8400-e29b-41d4-a716-446655440001"/>
+            <column name="situation_description" value="Помогите найти потерянные ключи в парке."/>
+        </insert>
+
+        <insert tableName="announcement">
+            <column name="announcement_id" value="550e8400-e29b-41d4-a716-446655440002"/>
+            <column name="situation_description" value="Ищем свидетелей дорожно-транспортного происшествия."/>
+        </insert>
     </changeSet>
 </databaseChangeLog>
